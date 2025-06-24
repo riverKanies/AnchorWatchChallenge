@@ -1,6 +1,6 @@
 import './Dashboard.css'
 import { useState, useEffect } from 'react'
-import { getKey, saveKey } from './Storage.js'
+import { getKey, saveKey } from './CloudStorage.js'
 
 const Dashboard = ({user, logout}) => {
   const [address, setAddress] = useState("") // 1NDyJtNTjmwk5xPNhjgAMu4HDHigtobu1s
