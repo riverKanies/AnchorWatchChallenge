@@ -1,11 +1,50 @@
 import './Dashboard.css'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { getKey, saveKey } from './Storage.js'
 
 const Dashboard = ({user, logout}) => {
-  const [address, setAddress] = useState("")
+  const [address, setAddress] = useState("") // 1NDyJtNTjmwk5xPNhjgAMu4HDHigtobu1s
   const [addressTxs, setAddressTxs] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
+  const [favorites, setFavorites] = useState([])
+
+  // Load favorites from localStorage on component mount
+  useEffect(() => {
+    loadFavorites()
+  }, [user])
+
+  const loadFavorites = async () => {
+    if (!user) return
+    try {
+      const favoritesData = await getKey(`${user.id}-favorites`)
+      if (favoritesData) {
+        setFavorites(JSON.parse(favoritesData))
+      }
+    } catch (error) {
+      console.error('Error loading favorites:', error)
+    }
+  }
+
+  const toggleFavorite = async (txid) => {
+    if (!user) return
+    
+    const newFavorites = favorites.includes(txid)
+      ? favorites.filter(id => id !== txid)
+      : [...favorites, txid]
+    
+    setFavorites(newFavorites)
+    
+    try {
+      await saveKey(`${user.id}-favorites`, JSON.stringify(newFavorites))
+    } catch (error) {
+      console.error('Error saving favorites:', error)
+    }
+  }
+
+  const isFavorite = (txid) => {
+    return favorites.includes(txid)
+  }
 
   async function getAddressTxs() {
     if (!address.trim()) {
@@ -112,6 +151,7 @@ const Dashboard = ({user, logout}) => {
                   <th>Fee</th>
                   <th>Status</th>
                   <th>Block Height</th>
+                  <th>Favorite</th>
                 </tr>
               </thead>
               <tbody>
@@ -119,6 +159,7 @@ const Dashboard = ({user, logout}) => {
                   const netAmount = calculateNetAmount(tx)
                   const isReceiving = netAmount > 0
                   const isSending = netAmount < 0
+                  const favorite = isFavorite(tx.txid)
                   
                   return (
                     <tr key={tx.txid || index}>
@@ -149,6 +190,15 @@ const Dashboard = ({user, logout}) => {
                         </span>
                       </td>
                       <td>{tx.status?.block_height || '-'}</td>
+                      <td>
+                        <button
+                          className={`favorite-btn ${favorite ? 'favorited' : ''}`}
+                          onClick={() => toggleFavorite(tx.txid)}
+                          title={favorite ? 'Remove from favorites' : 'Add to favorites'}
+                        >
+                          {favorite ? '★' : '☆'}
+                        </button>
+                      </td>
                     </tr>
                   )
                 })}

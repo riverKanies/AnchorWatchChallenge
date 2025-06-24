@@ -173,6 +173,37 @@
   color: #856404;
 }
 
+.favorite-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  color: #6c757d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  min-height: 36px;
+}
+
+.favorite-btn:hover {
+  background-color: #f8f9fa;
+  color: #ffc107;
+  transform: scale(1.1);
+}
+
+.favorite-btn.favorited {
+  color: #ffc107;
+}
+
+.favorite-btn.favorited:hover {
+  color: #e0a800;
+  background-color: #fff3cd;
+}
+
 .address-input-section {
   margin-bottom: 30px;
   background: white;
