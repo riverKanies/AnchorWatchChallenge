@@ -1,0 +1,130 @@
+/* login */
+
+/* @keyframes fadeAndSlideInTop {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0%);
+  }
+}
+@keyframes fadeAndSlideInBottom {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0%);
+  }
+} */
+
+.login-header {
+  height: 170px;
+  border-bottom: 1px solid #4667a6;
+  display: flex;
+  flex-direction: column-reverse;
+  background-image: linear-gradient(to right, #2ca468, #2a406a);
+}
+.login-title {
+  color: white;
+  width: 100%;
+  height: 70px;
+  text-align: center;
+  font-size: 50px;
+  font-weight: bold;
+}
+.login-subtitle {
+  color: rgb(168, 253, 192);
+  width: 100%;
+  height: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 15px;
+  font-weight: bold;
+}
+.login-body {
+  flex-grow: 1
+}
+.login-footer {
+  min-height: 170px;
+  /* background-color: #2a406a; */
+  border-top: 1px solid #4667a6;
+  text-align: center;
+  background-image: linear-gradient(to right, #2a406a, #2ca468);
+}
+.login-apple {
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  font-size:larger;
+  height: 60px;
+  position: relative;
+  cursor: pointer;
+  margin-top: 30px;
+  padding: 0 40px;
+}
+.login-apple img {
+  position: absolute;
+  top: 8px;
+}
+.login-apple span {
+  margin-left: 45px;
+  font-weight: bold;
+}
+
+.login-test-btn {
+  background-color: rgb(58, 58, 58);
+  color: white;
+  border: none;
+  border-radius: 15px;
+  font-size:larger;
+  height: 60px;
+  position: relative;
+  cursor: pointer;
+  margin-top: 30px;
+  padding: 0 40px;
+}
+
+.policies {
+  font-size: 10px;
+  color: #ffffff83;
+  width: 200px;
+  margin: auto;
+  margin-top: 15px;
+}
+.policies a {
+  padding: 0 3px;
+  color: #ffffff83;
+}
+
+
+/* login code */
+
+.code-login-container {
+  margin: 16px 0;
+}
+.code-login-container input {
+  margin: 7px;
+  border: 1px solid black;
+  background-color: black;
+  color: white;
+}
+.code-login-container button {
+  border: 1px solid white;
+  border-radius: 3px;
+  background-color: black;
+  color: white;
+  position: relative;
+  cursor: pointer;
+}
+.code-login-container button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.code-login-container button div {
+  position: absolute;
+  color: white;
+  right: -35px;
+  top: 2px;
+  font-size: 12px;
+}
