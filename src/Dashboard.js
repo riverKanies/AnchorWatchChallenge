@@ -2,21 +2,41 @@ import './Dashboard.css'
 import { useState } from 'react'
 
 const Dashboard = ({user, logout}) => {
-  const [address, setAddress] = useState("1wiz18xYmhRX6xStj2b9t1rwWX4GKUgpv")
+  const [address, setAddress] = useState("")
   const [addressTxs, setAddressTxs] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState("")
 
   async function getAddressTxs() {
+    if (!address.trim()) {
+      setError("Please enter a valid Bitcoin address")
+      return
+    }
+
     setLoading(true)
+    setError("")
+    setAddressTxs(null)
+    
     try {
       const res = await fetch(`https://mempool.space/api/address/${address}/txs`)
+      
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`)
+      }
+      
       const data = await res.json()
       setAddressTxs(data)
     } catch (error) {
       console.error('Error fetching transactions:', error)
+      setError("Failed to fetch transactions. Please check the address and try again.")
     } finally {
       setLoading(false)
     }
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    getAddressTxs()
   }
 
   // Helper function to format date
@@ -57,9 +77,25 @@ const Dashboard = ({user, logout}) => {
       <h1>Dashboard</h1>
       <div className="controls">
         <button onClick={logout}>Logout</button>
-        <button onClick={getAddressTxs} disabled={loading}>
-          {loading ? 'Loading...' : 'Get Address Txs'}
-        </button>
+      </div>
+
+      <div className="address-input-section">
+        <form onSubmit={handleSubmit}>
+          <div className="input-group">
+            <input
+              type="text"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              placeholder="Enter Bitcoin address"
+              className={error ? "error" : ""}
+              disabled={loading}
+            />
+            <button type="submit" disabled={loading || !address.trim()}>
+              {loading ? 'Loading...' : 'Get Transactions'}
+            </button>
+          </div>
+          {error && <div className="error-message">{error}</div>}
+        </form>
       </div>
 
       {addressTxs && (
