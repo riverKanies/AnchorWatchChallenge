@@ -152,6 +152,19 @@
   box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
 }
 
+.email-sent-message {
+  margin: 20px 0;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #17a2b8 0%, #20c997 100%);
+  color: white;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(23, 162, 184, 0.3);
+  animation: slideInUp 0.3s ease-out;
+}
+
 .login-footer {
   padding: 30px 20px;
   text-align: center;

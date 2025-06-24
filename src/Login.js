@@ -117,26 +117,31 @@ const Login = () => {
             </div>
 
             {codeSent && (
-              <div className="input-group">
-                <input
-                  id="codeInput"
-                  type="text"
-                  placeholder="Enter 8-digit code from email"
-                  value={code}
-                  onChange={handleCodeChange}
-                  className={error && !codeValid ? "error" : ""}
-                  disabled={loading}
-                  maxLength={8}
-                  required
-                />
-                <button 
-                  type="submit"
-                  disabled={!codeValid || !emailValid || loading}
-                  className="login-btn"
-                >
-                  {loading ? 'Logging in...' : 'Login'}
-                </button>
-              </div>
+              <>
+                <div className="email-sent-message">
+                  Check your email to get login code from CyberMonk
+                </div>
+                <div className="input-group">
+                  <input
+                    id="codeInput"
+                    type="text"
+                    placeholder="Enter 8-digit code from email"
+                    value={code}
+                    onChange={handleCodeChange}
+                    className={error && !codeValid ? "error" : ""}
+                    disabled={loading}
+                    maxLength={8}
+                    required
+                  />
+                  <button 
+                    type="submit"
+                    disabled={!codeValid || !emailValid || loading}
+                    className="login-btn"
+                  >
+                    {loading ? 'Logging in...' : 'Login'}
+                  </button>
+                </div>
+              </>
             )}
 
             {error && <div className="error-message">{error}</div>}
