@@ -18,6 +18,18 @@ const Dashboard = ({user, logout}) => {
 
   // Load favorites from localStorage on component mount
   useEffect(() => {
+    async function loadFavorites() {
+      if (!user) return
+      try {
+        const favoritesData = await getKey(`${user.id}-favorites`)
+        if (favoritesData) {
+          setFavorites(JSON.parse(favoritesData))
+        }
+      } catch (error) {
+        console.error('Error loading favorites:', error)
+      }
+    }
+    
     loadFavorites()
   }, [user])
 
@@ -29,18 +41,6 @@ const Dashboard = ({user, logout}) => {
       setAddressTxs(allTransactions.slice(startIndex, endIndex))
     }
   }, [currentPage, allTransactions])
-
-  const loadFavorites = async () => {
-    if (!user) return
-    try {
-      const favoritesData = await getKey(`${user.id}-favorites`)
-      if (favoritesData) {
-        setFavorites(JSON.parse(favoritesData))
-      }
-    } catch (error) {
-      console.error('Error loading favorites:', error)
-    }
-  }
 
   const toggleFavorite = async (txid) => {
     if (!user) return
