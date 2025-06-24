@@ -277,6 +277,44 @@
   font-size: 14px;
 }
 
+.pagination-controls {
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-top: 1px solid #dee2e6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+.pagination-info {
+  color: #6c757d;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.load-more-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: #007bff;
+  color: white;
+  white-space: nowrap;
+}
+
+.load-more-btn:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.load-more-btn:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
 @media (max-width: 768px) {
   .dashboard {
     padding: 10px;
@@ -306,6 +344,16 @@
   }
   
   .input-group button {
+    width: 100%;
+  }
+  
+  .pagination-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  
+  .load-more-btn {
     width: 100%;
   }
 }

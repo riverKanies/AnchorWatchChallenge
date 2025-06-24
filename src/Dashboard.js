@@ -8,11 +8,27 @@ const Dashboard = ({user, logout}) => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
   const [favorites, setFavorites] = useState([])
+  
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1)
+  const [hasMore, setHasMore] = useState(false)
+  const [allTransactions, setAllTransactions] = useState([])
+  const [loadingMore, setLoadingMore] = useState(false)
+  const transactionsPerPage = 25
 
   // Load favorites from localStorage on component mount
   useEffect(() => {
     loadFavorites()
   }, [user])
+
+  // Update displayed transactions when currentPage or allTransactions changes
+  useEffect(() => {
+    if (allTransactions.length > 0) {
+      const startIndex = 0
+      const endIndex = (currentPage * transactionsPerPage)
+      setAddressTxs(allTransactions.slice(startIndex, endIndex))
+    }
+  }, [currentPage, allTransactions])
 
   const loadFavorites = async () => {
     if (!user) return
@@ -46,31 +62,62 @@ const Dashboard = ({user, logout}) => {
     return favorites.includes(txid)
   }
 
-  async function getAddressTxs() {
+  async function getAddressTxs(afterTxid = null) {
     if (!address.trim()) {
       setError("Please enter a valid Bitcoin address")
       return
     }
 
-    setLoading(true)
-    setError("")
-    setAddressTxs(null)
+    if (afterTxid === null) {
+      // Initial load
+      setLoading(true)
+      setError("")
+      setAllTransactions([])
+      setCurrentPage(1)
+    } else {
+      // Loading more
+      setLoadingMore(true)
+    }
     
     try {
-      const res = await fetch(`https://mempool.space/api/address/${address}/txs`)
+      let url = `https://mempool.space/api/address/${address}/txs`
+      if (afterTxid) {
+        url += `?after_txid=${afterTxid}`
+      }
+      
+      const res = await fetch(url)
       
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`)
       }
       
       const data = await res.json()
-      setAddressTxs(data)
+      
+      if (afterTxid === null) {
+        // Initial load
+        setAllTransactions(data)
+        setHasMore(data.length >= transactionsPerPage)
+      } else {
+        // Loading more
+        const newTransactions = [...allTransactions, ...data]
+        setAllTransactions(newTransactions)
+        setHasMore(data.length >= transactionsPerPage)
+      }
     } catch (error) {
       console.error('Error fetching transactions:', error)
       setError("Failed to fetch transactions. Please check the address and try again.")
     } finally {
       setLoading(false)
+      setLoadingMore(false)
     }
+  }
+
+  const loadMoreTransactions = async () => {
+    if (!allTransactions.length) return
+    
+    const lastTx = allTransactions[allTransactions.length - 1]
+    await getAddressTxs(lastTx.txid)
+    setCurrentPage(prev => prev + 1)
   }
 
   const handleSubmit = (e) => {
@@ -204,6 +251,21 @@ const Dashboard = ({user, logout}) => {
                 })}
               </tbody>
             </table>
+          </div>
+          
+          {/* Pagination Controls */}
+          <div className="pagination-controls">
+            <div className="pagination-info">
+            </div>
+            {hasMore && (
+              <button 
+                className="load-more-btn"
+                onClick={loadMoreTransactions}
+                disabled={loadingMore}
+              >
+                {loadingMore ? 'Loading...' : 'Load More Transactions'}
+              </button>
+            )}
           </div>
         </div>
       )}
