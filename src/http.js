@@ -52,9 +52,11 @@ async function del (path) {
   return res
 }
 
-export default {
+const http = {
   get,
   post,
   put,
   del
 }
+
+export default http

@@ -14,11 +14,11 @@ async function loginWithCode() {
 }
 
 function validateEmail(email) {
-  const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+  const regex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
   return regex.test(email)
 }
 
-export default () => {
+const Login = () => {
 
   const [email, setEmail] = useState('')
   const [emailValid, setEmailValid] = useState(false)
@@ -36,7 +36,7 @@ export default () => {
 
   const changeCode = (e) => {
     const code = e.target.value
-    const valid = code.length == 8
+    const valid = code.length === 8
     setCode(code)
     setCodeValid(valid)
   }
@@ -70,3 +70,5 @@ export default () => {
     </div>
   </>
 }
+
+export default Login

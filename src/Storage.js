@@ -8,7 +8,7 @@
       // Usage with async/await
     async function getKey(key) {
             let value = localStorage.getItem(key)
-            if (value == '') value = null
+            if (value === '') value = null
             return value
     }
     //localStorage.setItem('currentThreadId', 'thread_KewytWhKsWFgULz0M6NBVJfI')

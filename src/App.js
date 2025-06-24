@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import { useState, useEffect } from 'react';
 import Login from './Login';
@@ -26,7 +25,7 @@ function App() {
           //ensure session is live
           const ok = await http.get('/sessions')
           // console.log('ok', ok)
-          if (ok.status == 200) {
+          if (ok.status === 200) {
             setAuth(jwt)
           } else {
             setTimeout(() => logout(), 300)
