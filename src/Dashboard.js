@@ -74,8 +74,8 @@ const Dashboard = ({user, logout}) => {
 
   return (
     <div className="dashboard">
-      <h1>Dashboard</h1>
       <div className="controls">
+        <h1>Dashboard</h1>
         <button onClick={logout}>Logout</button>
       </div>
 
