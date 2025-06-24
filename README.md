@@ -1,3 +1,7 @@
+## AnchorWatch Challenge Note:
+
+This is just a pretty basic Create React App frontend, to run locally or deploy just follow instructions:
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
